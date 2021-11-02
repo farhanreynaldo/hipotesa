@@ -6,6 +6,7 @@ from scipy import stats
 from hypothesis import Hypothesis
 from generator import Permute
 from test_statistic import DiffProps
+from specifier import Specifier
 
 
 @pytest.fixture
@@ -20,13 +21,15 @@ def test_two_proportions_pvalue(data):
     )
     _, p, _, _ = stats.chi2_contingency(contingency, correction=False)
 
-    yes = (
-        data.query('college_grad == "yes"')["response"].values == "no opinion"
-    )
-    no = data.query('college_grad == "no"')["response"].values == "no opinion"
-
     hypo = Hypothesis(
-        (yes, no), generator=Permute(), test_statistic=DiffProps()
+        data,
+        specifier=Specifier(
+            response="response",
+            explanatory="college_grad",
+            success="no opinion",
+        ),
+        generator=Permute(),
+        test_statistic=DiffProps(),
     )
 
     hypo.simulate()
