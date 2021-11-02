@@ -25,4 +25,4 @@ class Bootstrap(Generator):
         super().__init__()
 
     def __call__(self, data):
-        raise NotImplementedError
+        return rng.choice(data, len(data), replace=True)
