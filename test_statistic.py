@@ -23,3 +23,11 @@ class DiffMeans(TestStatistic):
 
 class DiffProps(DiffMeans):
     pass
+
+
+class Props(TestStatistic):
+    def __init__(self):
+        pass
+
+    def __call__(self, data):
+        return data.mean()
