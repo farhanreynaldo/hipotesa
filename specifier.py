@@ -10,7 +10,11 @@ class Specifier:
 
     def transform(self, data):
         if self.exp is None:
-            return data[self.resp]
+            return (
+                data[self.resp]
+                if self.success is None
+                else data[self.resp] == self.success
+            )
 
         is_resp_numeric = is_numeric_dtype(data[self.resp])
 
