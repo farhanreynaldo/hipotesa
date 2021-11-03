@@ -1,5 +1,15 @@
+from abc import abstractmethod
+
+
 class TestStatistic:
     def __init__(self):
+        pass
+
+    def __call__(self, *args, **kwargs):
+        return self.test_statistic(*args, **kwargs)
+
+    @abstractmethod
+    def test_statistic(self, data):
         pass
 
 
@@ -8,7 +18,7 @@ class DiffMeans(TestStatistic):
         super().__init__()
         self.direction = direction
 
-    def __call__(self, data):
+    def test_statistic(self, data):
         group1, group2 = data
         if self.direction is None or self.direction == "both":
             test_stat = abs(group1.mean() - group2.mean())
@@ -29,5 +39,5 @@ class Props(TestStatistic):
     def __init__(self):
         pass
 
-    def __call__(self, data):
+    def test_statistic(self, data):
         return data.mean()
